@@ -10,16 +10,16 @@
     <button onclick= "setAlarm(this);" id = "alarmButton">Set Alarm</button>
     <div id="alarmOptions" style = "display: none; ">
     
-        <button>Snooze</button> 
+        <button onclick="snooze()">Snooze</button> 
         
-        <button>Stop </button>
+        <button onclick = "stopAlarm()">Stop </button>
 
     
     </div>
     <script>
         let alarmSound = new Audio(); 
         alarmSound.src = 'alarmClockSound.mp3'
-        function setAlarm (){
+        function setAlarm (button){
             let ms = document.getElementById('alarmTime').valueAsNumber; 
             if(isNaN (ms)){
                 alert('Invalid Date'); 
@@ -34,10 +34,26 @@
                 return; 
             }
             setTimeout(initAlarm, differenceInMS)
+
+            button.innerText = 'Stop Alarm'
+            button.setAttribute('onclick', 'cancelAlarm(this);')
         };
 
         function initAlarm(){
             alarmSound.play(); 
+            document.getElementById("alarmOptions").style.display = ""
+        }
+
+        function stopAlarm(){
+            alarmSound.pause();
+            alarmSound.currentTime; 
+            document.getElementById("alarmOptions").style.display = 'none';
+        }
+
+        function snooze(){
+
+            stopAlarm();
+            setTimeout(initAlarm, 36000)
         }
     </script>
 </body>
